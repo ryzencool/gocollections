@@ -48,6 +48,17 @@ func (c *Counter) MostCommon(n int) PairList {
 	return pl[:n]
 }
 
+// Elements get all elements
+func (c *Counter) Elements() PairList {
+	pl := make(PairList, len(c.counter))
+	i := 0
+	for k, v := range c.counter {
+		pl[i] = Pair{k, v}
+		i++
+	}
+	return pl
+}
+
 // Pair to present map
 type Pair struct {
 	Key   interface{}
