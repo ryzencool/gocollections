@@ -1,5 +1,18 @@
 package set
 
+// Interface sort interface
+type Interface interface {
+	Len() int
+	Add(element interface{})
+	AddAll(elements ...interface{})
+	Remove(element interface{})
+	RemoveAll(elements ...interface{})
+	Elements() []interface{}
+	Clear()
+	Contains(element interface{}) bool
+	RetainAll(s1 Interface)
+}
+
 // Set set implementation by map
 type Set struct {
 	set map[interface{}]struct{}
@@ -59,7 +72,7 @@ func (s *Set) Contains(element interface{}) bool {
 }
 
 // RetainAll get Intersection
-func (s *Set) RetainAll(s1 *Set) {
+func (s *Set) RetainAll(s1 Interface) {
 	for _, v := range s.Elements() {
 		if !s1.Contains(v) {
 			s.Remove(v)

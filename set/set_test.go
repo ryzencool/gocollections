@@ -5,24 +5,23 @@ import (
 	"testing"
 )
 
-func TestSet(t *testing.T) {
+func data() (Interface, Interface) {
 	s := NewSet()
 	s.Add("java")
 	s.Add("php")
 	s.AddAll("c++", "golang")
-	e := s.Elements()
-	s.Remove("java")
-	s.Remove("golang")
-	for _, v := range e {
-		log.Printf("the elements of set is : %v", v)
+	s1 := NewSet()
+	s1.Add("java")
+	return s, s1
+}
+
+func TestRetainAll(t *testing.T) {
+	s1, s2 := data()
+	s1.RetainAll(s2)
+	for _, v := range s1.Elements() {
+		log.Printf("value:%v", v)
 	}
 
-	ok := s.Contains("java")
-	if ok {
-		log.Printf("set contains java")
-	} else {
-		log.Printf("set not contains java")
-	}
 }
 
 func TestMapSet(t *testing.T) {

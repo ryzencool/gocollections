@@ -74,7 +74,7 @@ func (c *ConcurrentSet) Contains(element interface{}) bool {
 }
 
 // RetainAll retain all
-func (c *ConcurrentSet) RetainAll(c1 *ConcurrentSet) {
+func (c *ConcurrentSet) RetainAll(c1 Interface) {
 	c.set.Range(func(k, v interface{}) bool {
 		if !c1.Contains(k) {
 			c.Remove(k)
