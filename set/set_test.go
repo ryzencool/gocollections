@@ -13,6 +13,7 @@ func data() (Interface, Interface) {
 	s1 := NewSet()
 	s1.Add("java")
 	return s, s1
+
 }
 
 func TestRetainAll(t *testing.T) {
