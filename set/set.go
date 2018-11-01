@@ -1,9 +1,5 @@
 package set
 
-import (
-	"log"
-)
-
 // Set set implementation by map
 type Set struct {
 	set map[interface{}]struct{}
@@ -28,13 +24,6 @@ func (s *Set) AddAll(elements ...interface{}) {
 	}
 }
 
-// AddSlice add slice into set
-func (s *Set) AddSlice(elements []interface{}) {
-	for _, e := range elements {
-		s.set[e] = struct{}{}
-	}
-}
-
 // Elements get elements from set
 func (s *Set) Elements() []interface{} {
 	rset := make([]interface{}, 0)
@@ -46,12 +35,39 @@ func (s *Set) Elements() []interface{} {
 
 // Remove remove some element from set
 func (s *Set) Remove(element interface{}) {
-	log.Printf("value is : %v", s)
 	delete(s.set, element)
+}
+
+// RemoveAll remove some elements from set
+func (s *Set) RemoveAll(elements ...interface{}) {
+	for ele := range elements {
+		delete(s.set, ele)
+	}
+}
+
+// Clear all elements in set
+func (s *Set) Clear() {
+	for ele := range s.set {
+		delete(s.set, ele)
+	}
 }
 
 // Contains if set contains some value
 func (s *Set) Contains(element interface{}) bool {
 	_, ok := s.set[element]
 	return ok
+}
+
+// RetainAll get Intersection
+func (s *Set) RetainAll(s1 *Set) {
+	for _, v := range s.Elements() {
+		if !s1.Contains(v) {
+			s.Remove(v)
+		}
+	}
+}
+
+// Len get length of set
+func (s *Set) Len() int {
+	return len(s.set)
 }
