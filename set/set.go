@@ -1,4 +1,4 @@
-package collections
+package set
 
 import (
 	"log"
@@ -55,5 +55,3 @@ func (s *Set) Contains(element interface{}) bool {
 	_, ok := s.set[element]
 	return ok
 }
-
-
