@@ -6,13 +6,15 @@ import (
 
 // ConcurrentSet concurrent solution of set
 type ConcurrentSet struct {
-	set sync.Map
+	set *sync.Map
 }
 
 // NewConcurrentSet init set
-func NewConcurrentSet() sync.Map {
-	var s sync.Map
-	return s
+func NewConcurrentSet() *ConcurrentSet {
+	var sm sync.Map
+	return &ConcurrentSet{
+		set: &sm,
+	}
 }
 
 // Len get length of concurrent set
