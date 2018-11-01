@@ -1,4 +1,4 @@
-package collections
+package counter
 
 import (
 	"sort"
@@ -7,6 +7,27 @@ import (
 // Counter like python's Counter class
 type Counter struct {
 	counter map[interface{}]int
+}
+
+// Pair convert  map to struct
+type Pair struct {
+	Key   interface{}
+	Value int
+}
+
+// PairList alias of Pair slice, implement sort.Interface
+type PairList []Pair
+
+func (p PairList) Len() int {
+	return len(p)
+}
+
+func (p PairList) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
+
+func (p PairList) Less(i, j int) bool {
+	return p[i].Value < p[j].Value
 }
 
 // NewCounter initialize Counter
@@ -27,8 +48,8 @@ func (c *Counter) UpdateString(elems string) {
 	}
 }
 
-// UpdateStuct update struct
-func (c *Counter) UpdateStuct(elem interface{}) {
+// UpdateStruct update
+func (c *Counter) UpdateStruct(elem interface{}) {
 	if _, ok := c.counter[elem]; ok {
 		c.counter[elem]++
 	} else {
@@ -57,25 +78,4 @@ func (c *Counter) Elements() PairList {
 		i++
 	}
 	return pl
-}
-
-// Pair to present map
-type Pair struct {
-	Key   interface{}
-	Value int
-}
-
-// PairList alias of Pair slice
-type PairList []Pair
-
-func (p PairList) Len() int {
-	return len(p)
-}
-
-func (p PairList) Swap(i, j int) {
-	p[i], p[j] = p[j], p[i]
-}
-
-func (p PairList) Less(i, j int) bool {
-	return p[i].Value < p[j].Value
 }
