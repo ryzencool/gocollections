@@ -1,12 +1,11 @@
 package queue
 
-import "log"
-
-// Deque deque
+// Deque deque, appreciate to not too long list
 type Deque struct {
-	queue []interface{}
-	head  int
-	tail  int
+	queue  []interface{}
+	head   int
+	tail   int
+	maxLen int
 }
 
 // NewDeque new deque
@@ -16,6 +15,7 @@ func NewDeque() *Deque {
 	}
 }
 
+// calculateSize
 func (d *Deque) calculateSize(num int) int {
 	initCap := 8
 	if initCap < num {
@@ -33,6 +33,7 @@ func (d *Deque) calculateSize(num int) int {
 	return initCap
 }
 
+// 
 func (d *Deque) allocateElements(num int) {
 	d.queue = make([]interface{}, d.calculateSize(num))
 }
@@ -42,11 +43,7 @@ func (d *Deque) doubleCapacity() {
 	p := d.head
 	tmp := make([]interface{}, n<<1)
 	copy(tmp[len(tmp)-n+p:], d.queue[p:])
-
 	copy(tmp[:p], d.queue[:p])
-	for i, v := range tmp {
-		log.Printf("tmp [%v] is [%v]", i, v)
-	}
 	d.queue = tmp
 }
 
@@ -68,8 +65,8 @@ func (d *Deque) AppendRight(element interface{}) {
 	}
 }
 
-// RemoveLeft remove left
-func (d *Deque) RemoveLeft() interface{} {
+// PopLeft remove left
+func (d *Deque) PopLeft() interface{} {
 	p := d.head
 	res := d.queue[p]
 	if d.queue[p] == nil {
@@ -80,8 +77,8 @@ func (d *Deque) RemoveLeft() interface{} {
 	return res
 }
 
-// RemoveLast remove right
-func (d *Deque) RemoveLast() interface{} {
+// PopRight remove right
+func (d *Deque) PopRight() interface{} {
 	p := d.tail
 	res := d.queue[p]
 	if d.queue[p] == nil {
@@ -92,3 +89,28 @@ func (d *Deque) RemoveLast() interface{} {
 	return res
 }
 
+// GetLeft get left
+func (d *Deque) GetLeft() interface{} {
+	return d.queue[d.head]
+}
+
+// GetRight get right
+func (d *Deque) GetRight() interface{} {
+	return d.queue[d.tail]
+}
+
+// Len get len
+func (d *Deque) Len() int {
+	l := len(d.queue)
+	return d.tail + l - d.head
+}
+
+// Elements get elements
+func (d *Deque) Elements() []interface{} {
+	l := d.Len()
+	ql := len(d.queue)
+	res := make([]interface{}, l)
+	copy(res[l-d.tail:], d.queue[:d.tail])
+	copy(res[:ql-d.head], d.queue[d.head:])
+	return res
+}
